@@ -2,10 +2,10 @@
 #include <SPI.h>
 #include <Adafruit_Sensor.h>
 #include "Adafruit_BME680.h"
-#define BME_SCK 14
-#define BME_MISO 12
-#define BME_MOSI 13
-#define BME_CS 15
+#define BME_SCK 18
+#define BME_MISO 19
+#define BME_MOSI 23
+#define BME_CS 4
 #define SEALEVELPRESSURE_HPA (1013.25)
 //Adafruit_BME680 bme; // I2C
 //Adafruit_BME680 bme(BME_CS); // hardware SPI
@@ -32,9 +32,9 @@ void loop() {
  return;
  }
  Serial.print("T(°C):" + String(bme.temperature) + ";");
- Serial.print("P(hPa):" + String(bme.pressure / 100.0) + ";");
  Serial.print("H(%):" + String(bme.humidity) + ";");
- Serial.print("G(KOhms):" + String(bme.gas_resistance / 1000.0) + ";");
- Serial.println("A(m):" + String(bme.readAltitude(SEALEVELPRESSURE_HPA)) + ";");
+ Serial.print("P(hPa):" + String(bme.pressure / 100.0) + ";");
+ Serial.println("G(KOhms):" + String(bme.gas_resistance / 1000.0) + ";");
+ //Serial.println("A(m):" + String(bme.readAltitude(SEALEVELPRESSURE_HPA)) + ";");
  delay(2000);
 }

@@ -1,79 +1,62 @@
+import serial
 import threading
 import time
 
+import matplotlib.animation as ani
 import matplotlib.pyplot as plt
-import numpy as np#
+import numpy as np
 
-headers = ["Time", "Temperature", "Humidity", "Pressure", "Gas"]
+headers = ["Time (s)", "Temperature (°C)", "Humidity (%)", "Pressure (hPa)", "Gas (KOhms)"]
+start = time.time()
+BAUDRATE = 115200
+ser = serial.Serial('/dev/ttyUSB0', baudrate=BAUDRATE)
+MAX_NUM = 100
 
 def read_serial(): 
-    data = {h:np.zeros(100) for h in headers}
+    data = {h:[] for h in headers}
     while True:
-        for k in data.keys():
-            data[k] = data[k][1:] + [data[k][-1] + 0.001]
-        yield data.values()
+        # print("Reading")
+        ser_bytes = ser.readline()
+        ser_bytes = ser_bytes.decode()
+        print(ser_bytes)
+        ser_bytes = ser_bytes.strip().strip(';').split(";")
+        ser_bytes = [float(s.split(":")[1]) for s in ser_bytes]
+        for i,k in enumerate(data.keys()):
+            if len(data[k]) > MAX_NUM:
+                if k == "Time": data[k] = list(data[k][1:]) + [time.time() - start]
+                else: data[k] = list(data[k][1:]) + [ser_bytes[i-1]]
+            else:
+                if k == "Time": data[k].append(time.time() - start)
+                else: data[k].append(ser_bytes[i-1])
+        vals = list(data.values())
+        yield vals[0], vals[1:]
 
 
 def plot(record = False):
-    fig = plt.figure()
+    fig = plt.figure(figsize=(80, 60))
 
-    figManager = fig.canvas.manager
-    figManager.window.showMaximized()
-
-    ax1 = fig.add_subplot(221)
-    ax2 = fig.add_subplot(222)
-    ax3 = fig.add_subplot(223)
-    ax4 = fig.add_subplot(224)
+    axes = [
+        fig.add_subplot(221),
+        fig.add_subplot(222),
+        fig.add_subplot(223),
+        fig.add_subplot(224)
+    ]
     rs = read_serial()
 
-    x, y1, y2, y3, y4 = next(rs)
-    points1 = ax1.plot(x, y1, 'o')[0]
-    points2 = ax2.plot(x, y3, 'o')[0]
-    points3 = ax3.plot(x, y2, 'o')[0]
-    points4 = ax4.plot(x, y4, 'o')[0]
+    x, ys = next(rs)
+    points = [axes[i].plot(x, ys[i])[0] for i in range(len(ys))]
 
-    plt.show(block=False)
+    for i in range(len(axes)):
+        axes[i].set_ylabel(headers[i + 1])
 
-    plt.pause(0.1)
-
-    bg = fig.canvas.copy_from_bbox(fig.bbox)
-
-    ax1.draw_artist(points1)
-    ax2.draw_artist(points2)
-    ax3.draw_artist(points3)
-    ax4.draw_artist(points4)
-
-    fig.canvas.blit(fig.bbox)
-
-    while True:
-        x, y1, y2, y3, y4 = next(rs)
-        points1.set_data(x, y1)
-        points2.set_data(x, y2)
-        points3.set_data(x, y3)
-        points4.set_data(x, y4)
-
-        fig.canvas.restore_region(bg)
-
-        plt.pause(0.01)
-
-        points1.set_data(x, y1)
-        ax1.draw_artist(points1)
-
-        points2.set_data(x, y2)
-        ax2.draw_artist(points2)
-
-        points3.set_data(x, y3)
-        ax3.draw_artist(points3)
-
-        points4.set_data(x,y4)
-        ax4.draw_artist(points4)
-
-        fig.canvas.blit(ax1.bbox)
-
-        # fig.canvas.blit(ax1.bbox)
-        # fig.canvas.blit(ax2.bbox)
-        # fig.canvas.blit(ax3.bbox)
-        # fig.canvas.blit(ax4.bbox)
-
-        fig.canvas.flush_events()
+    def draw_data(j):
+        x, ys = next(rs)
+        for i in range(len(axes)):
+            axes[i].set_xlim([x[0], x[-1]])   
+            axes[i].set_ylim([min(ys[i]), max(ys[i])])   
+            points[i].set_data(x, ys[i])
+            axes[i].draw_artist(points[i])
         
+
+    animator = ani.FuncAnimation(fig, draw_data, interval = 2000)
+    plt.show()
