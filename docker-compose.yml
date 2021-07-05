@@ -1,0 +1,10 @@
+version: "3.8"  
+services:
+  web:
+    image: thomasj27/controlled-env
+    ports: 
+      - "27170:27170"
+    environment:
+      - PORT=27170
+    volumes: 
+      - ./results:/usr/src/server/results
