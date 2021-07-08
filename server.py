@@ -3,9 +3,9 @@ import os
 import threading
 from queue import Queue
 
-import socketio
 from flask import Flask, redirect, render_template, request, session
 from flask_cors import CORS
+from flask_socketio import SocketIO
 
 PORT = os.getenv("PORT", default=27170)
 
@@ -26,11 +26,10 @@ def writer():
 
 threading.Thread(target=writer, daemon=True).start()
 
-sio = socketio.Server(async_mode='threading', engineio_logger=True)
 app = Flask(__name__)
 app.secret_key = "DieWiedervere1nigung"
 CORS(app)
-app.wsgi_app = socketio.WSGIApp(sio, app.wsgi_app)
+sio = SocketIO(app)
 
 
 @app.route('/controlledenvironment/home/', methods=["GET", "POST"])
@@ -49,11 +48,11 @@ def configure():
 
 @app.route('/controlledenvironment/submit/', methods=["GET", "POST"])
 def submit():
-    data = ast.literal_eval(request.data.decode())
-    sensors[data["Id"]] = data
+    data = ast.literal_eval(request.data.decode().lower())
+    sensors[data["id"]] = data
     print(sensors)
     sio.emit('update', data)
     return "200"
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=PORT)
+    sio.run(app, host="0.0.0.0", port=PORT, debug=True)

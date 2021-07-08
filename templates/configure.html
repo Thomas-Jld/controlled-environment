@@ -5,12 +5,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='styles/style.css') }}" />
-    <title>Hub</title>
+    <title>Document</title>
 </head>
 <body class="tree">
     <div id ="menu">
         <div id="title">
-            Controlled environment hub
+            Configuration
         </div>
         <form action="/controlledenvironment/monitor" class="second" method="POST">
             <button type="submit" id="monitor" class="button1">Monitor</button> 
@@ -19,8 +19,6 @@
             <button type="submit" id="configure" class="button1">Configure</button>
         </form>
     </div>
-    <div id="introduction">
-        Welcome to the environment hub. Here, you can monitor and control each controlled environment.
-    </div>
+    
 </body>
 </html>
