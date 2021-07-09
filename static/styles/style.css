@@ -114,6 +114,11 @@ button.button1:hover {
 
 /* --------Graphs---------- */
 
+.graph-title {
+    width: 100%;
+    text-align: center;
+}
+
 .graphs {
     width: 90vw;
     height: 70vh;
@@ -124,9 +129,13 @@ button.button1:hover {
     margin: 3rem 0 3rem 0;
 }
 
+.graph-holder {
+    padding-top: 10px;
+    border: 0.1em solid #f8f3df;
+    background-color: #f8f3dfdd;
+    border-radius: 1rem;
+}
+
 .rt-graph {
     height: 30vh;
-    border: 0.1em solid #f8f3df;
-    background-color: #f8f3df;
-    border-radius: 1rem;
 }

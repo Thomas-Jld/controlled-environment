@@ -32,15 +32,15 @@ CORS(app)
 sio = SocketIO(app)
 
 
-@app.route('/controlledenvironment/home/', methods=["GET", "POST"])
+@app.route('/controlledenvironment/home', methods=["GET", "POST"])
 def home():
     return render_template("home.html")
 
-@app.route('/controlledenvironment/monitor/', methods=["GET", "POST"])
+@app.route('/controlledenvironment/monitor', methods=["GET", "POST"])
 def monitor():
     return render_template("monitor.html")
 
-@app.route('/controlledenvironment/configure/', methods=["GET", "POST"])
+@app.route('/controlledenvironment/configure', methods=["GET", "POST"])
 def configure():
     return render_template("configure.html")
 

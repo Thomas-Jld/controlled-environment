@@ -2,9 +2,9 @@ let sensorsIds = [];
 let lastValues = {};
 
 let margins = {
-    top: 30,
+    top: 10,
     right: 60,
-    bottom: 80,
+    bottom: 30,
     left: 60
 }
 
@@ -12,15 +12,15 @@ let socket = io.connect('http://0.0.0.0:27170');
 
 function getTimeValue() {
     var dateBuffer = new Date();
-    var Time = dateBuffer.getTime();
-    return Time;
+    return dateBuffer.getTime();
 }
 
-let dataP = genData();
+let time = getTimeValue()
+let dataP = genData(time);
 
 let chart_names = ["temperature", "pressure", "humidity", "gas"];
 let chart_ranges = ["range", "range", "range", "range"];
-let chart_scales = [1, 0.001, "range", "range"];
+let chart_scales = [2, 2, 2, 2];
 let charts = {};
 chart_names.forEach((chart_name, i) => {
     console.log(chart_name);
@@ -30,15 +30,16 @@ console.log(charts);
 
 function updateData(newValues) {
     lastValues[newValues.id] = newValues;
+    time = getTimeValue();
     if (newValues.id in sensorsIds) {
         chart_names.forEach(chart_name => {
-            let dataPoint = genPoint(chart_name);
+            let dataPoint = genPoint(time, chart_name);
             charts[chart_name].push(dataPoint);
         });
     } else {
         sensorsIds.push(newValues.id);
         chart_names.forEach(chart_name => {
-            let data = genData(chart_name);
+            let data = genData(time, chart_name);
             charts[chart_name].update(data);
         });
     }
@@ -47,13 +48,13 @@ function updateData(newValues) {
 socket.on("update", updateData);
 
 
-function genData(chart_name) {
+function genData(time, chart_name) {
     let data = [];
     for (let i = 0; i < sensorsIds.length; i++) {
         data.push({
             label: 'Layer ' + i,
             values: [{
-                time: getTimeValue(),
+                time: time,
                 y: parseFloat(lastValues[sensorsIds[i]][chart_name])
             }]
         });
@@ -62,11 +63,11 @@ function genData(chart_name) {
 }
 
 
-function genPoint(chart_name) {
+function genPoint(time, chart_name) {
     let dataPoint = [];
     for (let i = 0; i < sensorsIds.length; i++) {
         dataPoint.push({
-            time: getTimeValue(),
+            time: time,
             y: parseFloat(lastValues[sensorsIds[i]][chart_name])
         });
     }
@@ -78,14 +79,21 @@ function genChart(name, range, data) {
     return $('#' + name).epoch({
         type: 'time.line',
         data: data,
-        axes: ['left', 'right', 'bottom'],
+        axes: ['right', 'bottom'],
         range: {
             left: range,
             right: range
         },
-        tickFormats: { left: function(d) { return d.toFixed(2); } },
+        ticks: {time: 8},
+        tickFormats: { 
+            bottom: function(d) { return new Date(d).toLocaleTimeString(); },
+            right: function(d) { return d.toFixed(2); },
+        },
+        windowSize: 60,
+        queueSize: 60,
+        history: 180,
         margins: margins,
         width: document.getElementById(name).getBoundingClientRect().width,
-        height: document.getElementById(name).getBoundingClientRect().height,
+        height: document.getElementById(name).getBoundingClientRect().height - 30,
     });
 }

@@ -28,10 +28,22 @@
     </div>
 
     <div class="graphs">
-        <div id="temperature" class="rt-graph epoch category10"></div>
-        <div id="pressure" class="rt-graph epoch category10"></div>
-        <div id="humidity" class="rt-graph epoch category10"></div>
-        <div id="gas" class="rt-graph epoch category10"></div>
+        <div class="graph-holder">
+            <label class="graph-title">Temperature (°C)</label>
+            <div id="temperature" class="rt-graph epoch category10"></div>
+        </div>
+        <div class="graph-holder">
+            <label class="graph-title">Pressure (hPa)</label>
+            <div id="pressure" class="rt-graph epoch category10"></div>
+        </div>
+        <div class="graph-holder">
+            <label class="graph-title">Humidity (%)</label>
+            <div id="humidity" class="rt-graph epoch category10"></div>
+        </div>
+        <div class="graph-holder">
+            <label class="graph-title">Gas resistance (kOhm)</label>
+            <div id="gas" class="rt-graph epoch category10"></div>
+        </div>
     </div>
     <script src="{{ url_for('static', filename='scripts/monitor.js') }}"></script>
 </body>
