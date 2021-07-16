@@ -1,0 +1,219 @@
+EESchema Schematic File Version 4
+EELAYER 30 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 1 1
+Title ""
+Date ""
+Rev ""
+Comp ""
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+$Comp
+L Connector:Conn_01x15_Female J0
+U 1 1 60F1837A
+P 5600 2350
+F 0 "J0" H 5450 3250 50  0000 L CNN
+F 1 "Conn_01x15_Female" H 5150 3150 50  0001 L CNN
+F 2 "" H 5600 2350 50  0001 C CNN
+F 3 "~" H 5600 2350 50  0001 C CNN
+	1    5600 2350
+	1    0    0    -1  
+$EndComp
+$Comp
+L Connector:Conn_01x15_Female J1
+U 1 1 60F18F6B
+P 6300 2350
+F 0 "J1" H 6192 3143 50  0000 C CNN
+F 1 "Conn_01x15_Female" H 6192 3144 50  0001 C CNN
+F 2 "" H 6300 2350 50  0001 C CNN
+F 3 "~" H 6300 2350 50  0001 C CNN
+	1    6300 2350
+	-1   0    0    -1  
+$EndComp
+$Comp
+L Regulator_Linear:L7805 U?
+U 1 1 60F1E030
+P 2200 1650
+F 0 "U?" H 2200 1892 50  0000 C CNN
+F 1 "L7805" H 2200 1801 50  0000 C CNN
+F 2 "" H 2225 1500 50  0001 L CIN
+F 3 "http://www.st.com/content/ccc/resource/technical/document/datasheet/41/4f/b3/b0/12/d4/47/88/CD00000444.pdf/files/CD00000444.pdf/jcr:content/translations/en.CD00000444.pdf" H 2200 1600 50  0001 C CNN
+	1    2200 1650
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:+12V #PWR?
+U 1 1 60F1E706
+P 1650 1450
+F 0 "#PWR?" H 1650 1300 50  0001 C CNN
+F 1 "+12V" H 1665 1623 50  0000 C CNN
+F 2 "" H 1650 1450 50  0001 C CNN
+F 3 "" H 1650 1450 50  0001 C CNN
+	1    1650 1450
+	1    0    0    -1  
+$EndComp
+$Comp
+L Connector:Barrel_Jack J?
+U 1 1 60F223F7
+P 1050 1750
+F 0 "J?" H 1107 2075 50  0000 C CNN
+F 1 "Barrel_Jack" H 1107 1984 50  0000 C CNN
+F 2 "" H 1100 1710 50  0001 C CNN
+F 3 "~" H 1100 1710 50  0001 C CNN
+	1    1050 1750
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	1350 1650 1650 1650
+Wire Wire Line
+	1650 1450 1650 1650
+Connection ~ 1650 1650
+Wire Wire Line
+	1650 1650 1850 1650
+Wire Wire Line
+	1350 1850 1650 1850
+Wire Wire Line
+	1650 1850 1650 2100
+Wire Wire Line
+	1650 2100 1850 2100
+Wire Wire Line
+	2200 2100 2200 1950
+$Comp
+L power:GND #PWR?
+U 1 1 60F23F2D
+P 2200 2200
+F 0 "#PWR?" H 2200 1950 50  0001 C CNN
+F 1 "GND" H 2205 2027 50  0000 C CNN
+F 2 "" H 2200 2200 50  0001 C CNN
+F 3 "" H 2200 2200 50  0001 C CNN
+	1    2200 2200
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	2200 2100 2200 2200
+Connection ~ 2200 2100
+$Comp
+L Device:C C0
+U 1 1 60F24701
+P 1850 1850
+F 0 "C0" H 1965 1896 50  0000 L CNN
+F 1 "0.33µf" H 1965 1805 50  0000 L CNN
+F 2 "" H 1888 1700 50  0001 C CNN
+F 3 "~" H 1850 1850 50  0001 C CNN
+	1    1850 1850
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:C C1
+U 1 1 60F24D92
+P 2600 1850
+F 0 "C1" H 2715 1896 50  0000 L CNN
+F 1 "0.1µf" H 2715 1805 50  0000 L CNN
+F 2 "" H 2638 1700 50  0001 C CNN
+F 3 "~" H 2600 1850 50  0001 C CNN
+	1    2600 1850
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	1850 1650 1850 1700
+Connection ~ 1850 1650
+Wire Wire Line
+	1850 1650 1900 1650
+Wire Wire Line
+	1850 2000 1850 2100
+Connection ~ 1850 2100
+Wire Wire Line
+	1850 2100 2200 2100
+Wire Wire Line
+	2200 2100 2600 2100
+Wire Wire Line
+	2600 2100 2600 2000
+Wire Wire Line
+	2600 1700 2600 1650
+Wire Wire Line
+	2600 1650 2500 1650
+$Comp
+L power:+5V #PWR?
+U 1 1 60F3B3ED
+P 2600 1450
+F 0 "#PWR?" H 2600 1300 50  0001 C CNN
+F 1 "+5V" H 2615 1623 50  0000 C CNN
+F 2 "" H 2600 1450 50  0001 C CNN
+F 3 "" H 2600 1450 50  0001 C CNN
+	1    2600 1450
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	2600 1650 2600 1450
+Connection ~ 2600 1650
+$Comp
+L Connector:Conn_01x04_Female J2
+U 1 1 60F49974
+P 4050 2850
+F 0 "J2" H 3942 2517 50  0000 C CNN
+F 1 "Conn_01x04_Female" H 3942 2516 50  0001 C CNN
+F 2 "" H 4050 2850 50  0001 C CNN
+F 3 "~" H 4050 2850 50  0001 C CNN
+	1    4050 2850
+	-1   0    0    1   
+$EndComp
+Wire Wire Line
+	4250 2650 5400 2650
+Wire Wire Line
+	4250 2750 5300 2750
+Wire Wire Line
+	5300 2750 5300 2950
+Wire Wire Line
+	5300 2950 5400 2950
+Wire Wire Line
+	4250 2850 5250 2850
+Wire Wire Line
+	5250 2850 5250 3150
+Wire Wire Line
+	5250 3150 5700 3150
+Wire Wire Line
+	5700 3150 5700 1750
+Wire Wire Line
+	5700 1750 5400 1750
+Wire Wire Line
+	5200 2950 5200 3200
+Wire Wire Line
+	5750 3200 5750 1650
+Wire Wire Line
+	5750 1650 5400 1650
+Wire Wire Line
+	5200 3200 5750 3200
+Wire Wire Line
+	5200 2950 4250 2950
+$Comp
+L power:+5V #PWR?
+U 1 1 60F5A381
+P 6850 1650
+F 0 "#PWR?" H 6850 1500 50  0001 C CNN
+F 1 "+5V" V 6865 1778 50  0000 L CNN
+F 2 "" H 6850 1650 50  0001 C CNN
+F 3 "" H 6850 1650 50  0001 C CNN
+	1    6850 1650
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	6500 1650 6850 1650
+$Comp
+L power:GND #PWR?
+U 1 1 60F5DC3C
+P 6850 1750
+F 0 "#PWR?" H 6850 1500 50  0001 C CNN
+F 1 "GND" V 6855 1622 50  0000 R CNN
+F 2 "" H 6850 1750 50  0001 C CNN
+F 3 "" H 6850 1750 50  0001 C CNN
+	1    6850 1750
+	0    -1   -1   0   
+$EndComp
+Wire Wire Line
+	6850 1750 6500 1750
+$EndSCHEMATC
